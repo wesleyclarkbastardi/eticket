@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>E-Ticket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An e-ticketing app for all of your ticketing needs">
+  <link rel="stylesheet" href="css/reset.css" type="text/css" >
+  <link rel="stylesheet" href="css/style.css" type="text/css" >
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="img/favicon/site.webmanifest">
+  <link href="https://fonts.googleapis.com/css?family=Oxygen:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Petit+Formal+Script" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <img class="logo" src="img/ticket_logo.svg" alt="logo">
+      <h1>E-TICKET</h1>
+    </header>
+    
+    <form v-on:reset="resetFields" @submit.prevent="handleSubmit">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" v-model.trim="firstName" v-bind:class="[requiredFieldClass]" />
+          </div>
+          <div class="form-field">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" v-model.trim="lastName" v-bind:class="[requiredFieldClass]" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="text" id="email" v-model.trim="email" v-bind:class="[requiredFieldClass, emailClasses]"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ticket-quantity">Ticket Quantity</label>
+            <select id="ticket-quantity" v-model.number="ticketQuantity" v-bind:class="[requiredFieldClass]">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <legend>Ticket Type</legend>
+            <div>
+              <input type="radio" id="general" value="general" v-model="ticketType" v-bind:class="[requiredFieldClass]">
+              <label for="general">General Admission</label>
+            </div>
+            <div>
+              <input type="radio" id="vip" value="vip" v-model="ticketType" v-bind:class="[requiredFieldClass]">
+              <label for="vip">VIP</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row checkbox">
+          <fieldset>
+            <legend>How did you hear about this event?</legend>
+            <div>
+              <input type="checkbox" id="friend" value="friend" v-model="referrals">
+              <label for="friend">Friend</label>
+            </div>
+            <div>
+              <input type="checkbox" id="publication" value="publication" v-model="referrals">
+              <label for="publication">Publication</label>
+            </div>
+            <div>
+              <input type="checkbox" id="social-media" value="social" v-model="referrals">
+              <label for="social-media">Social Media</label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="form-row vertical">
+          <label for="requests">Special requests</label>
+          <textarea id="requests" v-model.trim="specialRequests"></textarea>
+        </div>
+        <div class="form-row vertical agreement checkbox">
+          <fieldset>
+            <legend>Purchase Agreement</legend>
+            <p>I, {{ fullName }}, wish to buy {{ ticketDescription }}. I understand that all ticket sales are final.</p>
+            <input type="checkbox" name="agreement" id="agree" v-model="purchaseAgreementSigned" v-bind:class="[requiredFieldClass]" />
+            <label for="agree">I Agree</label>
+          </fieldset>
+        </div>
+        <div class="form-row vertical">
+          <label for="signature">Signature</label>
+          <input type="text" id="signature" v-model="signature" class="signature" v-bind:class="[requiredFieldClass]" />
+        </div>
+        <div>
+          <button type="reset" class="reset">Reset</button>
+          <button type="submit" v-bind:disabled="!formIsValid" v-bind:class="{ active: formIsValid }">Confirm Tickets</button>
+        </div>
+      </form>
+    </div>
+  </body>
+  </html>
